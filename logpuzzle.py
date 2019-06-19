@@ -64,13 +64,11 @@ def download_images(img_urls, dest_dir):
     # +++your code here+++
     if not os.path.exists(str(dest_dir)):
         os.mkdir(dest_dir)
-    html_file = open(str(dest_dir)+'/index.html', 'w')
-    for index, url in enumerate(img_urls):
-        urllib.urlretrieve("http://code.google.com" + url, filename="new/" +
-                           str(index)+".jpg")
-        html_file.write("<img src="+'"'+str(index)+".jpg"+'">')
-
-    html_file.close()
+    with open(str(dest_dir)+'/index.html', 'w') as html_file:
+        for index, url in enumerate(img_urls):
+            urllib.urlretrieve("http://code.google.com" + url, filename="new/"
+                               + str(index)+".jpg")
+            html_file.write("<img src="+'"'+str(index)+".jpg"+'">')
 
 
 def create_parser():
