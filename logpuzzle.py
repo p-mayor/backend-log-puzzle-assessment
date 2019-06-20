@@ -29,7 +29,7 @@ import argparse
 
 def helper_regex(item):
     '''returns characters after the last hyphen in item'''
-    match = re.search(r'\w[^-]*$', item)
+    match = re.search(r'\w[^-]*$', item).group(0)
     return match.group(0)
 
 
@@ -49,7 +49,7 @@ def read_urls(filename):
 
     output = list(set(output))
 
-    output.sort(key=helper_regex)
+    output.sort(key=lambda item : re.search(r'\w[^-]*$', item).group(0))
     return output
 
 
@@ -66,7 +66,7 @@ def download_images(img_urls, dest_dir):
         os.mkdir(dest_dir)
     with open(str(dest_dir)+'/index.html', 'w') as html_file:
         for index, url in enumerate(img_urls):
-            urllib.urlretrieve("http://code.google.com" + url, filename="new/"
+            urllib.urlretrieve("http://code.google.com" + url, filename=str(dest_dir)+'/'
                                + str(index)+".jpg")
             html_file.write("<img src="+'"'+str(index)+".jpg"+'">')
 
